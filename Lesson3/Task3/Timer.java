@@ -9,6 +9,6 @@ public class Timer {
     }
 
     static void stopAndPrint() {
-        System.out.println("time: " + (System.currentTimeMillis() - t));
+        System.out.println("На обработку запроса ушло : " + (System.currentTimeMillis() - t) + "мс");
     }
 }
