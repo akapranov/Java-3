@@ -18,12 +18,26 @@ public class MainClass {
 
             @Override
             public void run() {
-                
+                for (int i = 0; i < number; i++) {
+                    synchronized (lock){
+                        try {
+                            while(str != c){
+                                lock.wait();
+                            }
+                            System.out.print(c);
+                            str = nextC;
+                            lock.notifyAll();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                }
             }
         }
-
+        new Thread(new doYourJob('A', 'B')).start();
+        new Thread (new doYourJob('B', 'C')).start();
+        new Thread (new doYourJob('C', 'A')).start();
     }
-    new Thread (new doYourJob('A', 'B')).start();
-    new Thread (new doYourJob('B', 'C')).start();
-    new Thread (new doYourJob('C', 'A')).start();
+
 }
