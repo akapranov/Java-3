@@ -6,9 +6,7 @@ public class Car implements Runnable {
     static boolean x = true;
     private static int CARS_COUNT;
     static final CyclicBarrier cb = new CyclicBarrier(MainClass.CARS_COUNT);
-    static {
-        CARS_COUNT = 0;
-    }
+    static { CARS_COUNT = 0;}
     private Race race;
     private int speed;
     private String name;
@@ -26,6 +24,7 @@ public class Car implements Runnable {
         CARS_COUNT++;
         this.name = "Участник #" + CARS_COUNT;
     }
+
     @Override
     public void run() {
         try {
@@ -37,6 +36,7 @@ public class Car implements Runnable {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
         for (int i = 0; i < race.getStages().size(); i++) {
             race.getStages().get(i).go(this);
             if (i == race.getStages().size()-1 && cb.getNumberWaiting() == 0 && x){

@@ -3,7 +3,6 @@ package Lesson5;
 import java.util.concurrent.Semaphore;
 
 public class Tunnel extends Stage {
-
     final static int tunnelCapacity = MainClass.CARS_COUNT/2;
     static Semaphore smf = new Semaphore(tunnelCapacity, true);
 
@@ -11,6 +10,7 @@ public class Tunnel extends Stage {
         this.length = 80;
         this.description = "Тоннель " + length + " метров";
     }
+
     @Override
     public void go(Car c) {
         try {
