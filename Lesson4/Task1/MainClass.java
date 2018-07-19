@@ -1,17 +1,17 @@
 package Lesson4.Task1;
 
 public class MainClass {
-    static volatile char str = 'A';
+    static private char str = 'A';
 
     public static void main(String[] args) {
         Object lock = new Object();
 
-        class doYourJob implements Runnable{
+        class DoYourJob implements Runnable{
             private char c;
             private char nextC;
             private int number = 5;
 
-            public doYourJob(char c, char nextC) {
+            public DoYourJob(char c, char nextC) {
                 this.c = c;
                 this.nextC = nextC;
             }
@@ -35,9 +35,9 @@ public class MainClass {
                 }
             }
         }
-        new Thread(new doYourJob('A', 'B')).start();
-        new Thread (new doYourJob('B', 'C')).start();
-        new Thread (new doYourJob('C', 'A')).start();
+        new Thread(new DoYourJob('A', 'B')).start();
+        new Thread (new DoYourJob('B', 'C')).start();
+        new Thread (new DoYourJob('C', 'A')).start();
     }
 
 }
