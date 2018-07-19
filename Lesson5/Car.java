@@ -3,6 +3,7 @@ package Lesson5;
 import java.util.concurrent.CyclicBarrier;
 
 public class Car implements Runnable {
+    static boolean x = true;
     private static int CARS_COUNT;
     static final CyclicBarrier cb = new CyclicBarrier(MainClass.CARS_COUNT);
     static {
@@ -38,6 +39,10 @@ public class Car implements Runnable {
         }
         for (int i = 0; i < race.getStages().size(); i++) {
             race.getStages().get(i).go(this);
+            if (i == race.getStages().size()-1 && cb.getNumberWaiting() == 0 && x){
+                System.out.println("Участник #" + this.name + " WINN!!!");
+                x = false;
+            }
         }
     }
 
