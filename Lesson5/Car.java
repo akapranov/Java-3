@@ -44,6 +44,7 @@ public class Car implements Runnable {
                 x = false;
             }
         }
+        MainClass.countDownLatch.countDown();
     }
 
 }
