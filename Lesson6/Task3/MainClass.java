@@ -1,23 +1,19 @@
 package Lesson6.Task3;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
 public class MainClass {
+    private static Connection connection;
     private static Statement stmt;
-    private static Connecting connecting;
 
     public static void main(String[] args) {
-        connecting = new Connecting();
-        connecting.connect();
-        //
-        connecting.disconnect();
+        connect();
+        disconnect();
     }
 
-    public static void addNewPersonAndScore(String name, int score){
+    public static void addNewPersonAndScore(String name, int rate){
         try {
-            stmt.executeUpdate("INSERT INTO univer ( NAME, SCORE ) VALUES ( '"+ name +"', '"+ score +"' );");
+            stmt.executeUpdate("INSERT INTO STUDENTS ( NAME, RATING ) VALUES ( '"+ name +"', '"+ rate +"' );");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -25,33 +21,33 @@ public class MainClass {
 
     public static void addNewPerson(String name){
         try {
-            stmt.executeUpdate("INSERT INTO univer ( NAME ) VALUES ( '"+ name +"');");
+            stmt.executeUpdate("INSERT INTO STUDENTS ( NAME ) VALUES ( '"+ name +"');");
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    public static void addScoreByName(String name, int score){
+    public static void addScoreByName(String name, int rate){
         if(!proofExist(name)) try {
             throw new SQLException("Такого студента в базе не найдено!");
         } catch (SQLException e) {
             e.printStackTrace();
         }
         try {
-            stmt.executeUpdate(" INSERT INTO univer  (SCORE = '"+ score +"' WHERE NAME = '"+ name +"' );");
+            stmt.executeUpdate(" INSERT INTO STUDENTS  (RATING = '"+ rate +"' WHERE NAME = '"+ name +"' );");
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    public static void updateScoreByName(String name, int score){
+    public static void updateScoreByName(String name, int rate){
         if(!proofExist(name)) try {
             throw new SQLException("Такого студента в базе не найдено!");
         } catch (SQLException e) {
             e.printStackTrace();
         }
         try {
-            stmt.executeUpdate("UPDATE univer SET SCORE = '"+score+"' WHERE NAME ='"+name+"' ;");
+            stmt.executeUpdate("UPDATE STUDENTS SET SCORE = '"+rate+"' WHERE NAME ='"+name+"' ;");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -66,7 +62,7 @@ public class MainClass {
         }
 
         try {
-            ResultSet rs = stmt.executeQuery("SELECT * FROM students WHERE NAME = '" + name + "';");
+            ResultSet rs = stmt.executeQuery("SELECT * FROM STUDENTS WHERE NAME = '" + name + "';");
             score = Integer.parseInt(rs.getString("SCORE"));
 
         } catch (SQLException e) {
@@ -75,21 +71,21 @@ public class MainClass {
         return score;
     }
 
-    public static void readNamesByScore(int score){
+    public static void readNamesByScore(int rate){
         try {
-            ResultSet rs = stmt.executeQuery("SELECT * FROM students WHERE SCORE = '" + score + "';");
+            ResultSet rs = stmt.executeQuery("SELECT * FROM STUDENTS WHERE RATING = '" + rate + "';");
             while (rs.next()) {
-                System.out.println("Студент: " + rs.getString("NAME") + "; Балл: " + rs.getString("SCORE"));
+                System.out.println("Студент: " + rs.getString("NAME") + "; Балл: " + rate);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    public static boolean proofExist(String s){ //проверяет существует ли соответствующая запись в БД
+    public static boolean proofExist(String name){ //проверяет существует ли соответствующая запись в БД
         int i = 0;
         try{
-            ResultSet rs =stmt.executeQuery("SELECT * FROM SHOP WHERE title = '" + s + "';");
+            ResultSet rs =stmt.executeQuery("SELECT * FROM STUDENTS WHERE NAME = '" + name + "';");
             while(rs.next()){
                 i++;
             }
@@ -97,6 +93,23 @@ public class MainClass {
             e.printStackTrace();
         }
         return (i!=0)?false:true;
+    }
+
+    public static void  connect(){
+        try{
+            Class.forName("org.sqlite.JDBC");
+            connection = DriverManager.getConnection("jdbc:sqlite:db.db");
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    public static void disconnect(){
+        try{
+            connection.close();
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
     }
 
 
