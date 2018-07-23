@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class MainClass {
     public static void main(String[] args) {    }
 
-    public int[] allFromLastFour(int[] numbers){
+    public static int[] allFromLastFour(int[] numbers){
         int count = 0;                                        // переменная для подсчета 4-ок.
         ArrayList<Integer> arrNum = new ArrayList<Integer>();       // временный массив
         int[] newNumber;                                      // возвращаемый массив
