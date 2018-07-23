@@ -7,7 +7,7 @@ import java.util.Arrays;
 import java.util.Collection;
 
 @RunWith(Parameterized.class)
-public class MainClassTestMass {
+public class MainClassTest2 {
     @Parameterized.Parameters
     public static Collection<int[]> data(){
         return Arrays.asList(new int[][]{
@@ -19,7 +19,7 @@ public class MainClassTestMass {
     }
     private int[] numbers;
 
-    public MainClassTestMass(int[] numbers) {
+    public MainClassTest2(int[] numbers) {
         this.numbers = numbers;
     }
 
