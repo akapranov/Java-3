@@ -2,20 +2,48 @@ package Lesson6.Task3;
 
 import org.junit.*;
 
-import java.sql.SQLException;
+import java.sql.*;
 
 public class MainClassTest {
-    @Before
-    public void Before() throws SQLException {
+    private static Connection connection;
+    private static Statement stmt;
+    private static Savepoint sp;
+
+    @BeforeClass
+    public static void init(){
+            try {
+                connection = DriverManager.getConnection("jdbc:sqlite:db.db");
+                stmt = connection.createStatement();
+                connection.setAutoCommit(false);
+                sp = connection.setSavepoint("A");
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
     }
 
-    @After
-    public void After() throws SQLException{
 
-    }
+
+    @AfterClass
+        public static void close(){
+            try {
+                connection.rollback(sp);
+                connection.commit();
+                connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
 
     @Test
     public void addNewPersonAndScore() {
+        String name = "Пупкин";
+        int rate = 5;
+        try {
+            stmt.executeUpdate("INSERT INTO univer ( NAME, SCORE ) VALUES ( '"+ name +"', '"+ rate +"' );");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
